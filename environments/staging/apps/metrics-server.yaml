@@ -9,18 +9,27 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/L0rdWyd3r/argolearn.git
-    targetRevision: HEAD
-    path: environments/staging/metrics-server
+    repoURL: https://kubernetes-sigs.github.io/metrics-server/
+    targetRevision: 3.8.4
+    chart: metrics-server
+    helm:
+      version: v3
+      releaseName: metrics-server
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: "image.tag"
+          value: v0.6.2
   destination:
     server: https://kubernetes.default.svc
+    namespace: metrics-server
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: false
     syncOptions:
       - Validate=true
-      - CreateNamespace=false
+      - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
+
