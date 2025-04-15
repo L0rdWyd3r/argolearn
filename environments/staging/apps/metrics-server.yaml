@@ -17,7 +17,7 @@ spec:
         - values.yaml
       parameters:
         - name: "image.tag"
-          value: v0.6.2
+          value: v0.7.2
   destination:
     server: https://kubernetes.default.svc
     namespace: metrics-server
