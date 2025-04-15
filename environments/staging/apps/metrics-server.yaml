@@ -9,12 +9,10 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://kubernetes-sigs.github.io/metrics-server/
-    targetRevision: 3.8.4
-    chart: metrics-server
+    repoURL: https://github.com/L0rdWyd3r/argolearn.git
+    targetRevision: HEAD
+    path: environments/staging/metrics-server
     helm:
-      version: v3
-      releaseName: metrics-server
       valueFiles:
         - values.yaml
       parameters:
