@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/L0rdWyd3r/argolearn.git
     targetRevision: HEAD
-    path: environments/staging/metric-server
+    path: environments/staging/metrics-server
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:
