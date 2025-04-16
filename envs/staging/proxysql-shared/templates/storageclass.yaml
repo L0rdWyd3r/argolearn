@@ -1,0 +1,17 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    meta.helm.sh/release-name: fast
+    meta.helm.sh/release-namespace: {{ .Values.env }}
+  labels:
+    k8s-addon: storage-aws.addons.k8s.io
+  name: fast
+parameters:
+  type: gp3
+  fsType: ext4
+  encrypted: "true"
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
