@@ -25,8 +25,11 @@ proxysql:
         password: storespass
     servers:
       - host: 10.0.0.1
+        isWriter: true
       - host: 10.0.0.2
+        isWriter: false
       - host: 10.0.0.3
+        isWriter: false
 
 image:
   repository: "123456789012.dkr.ecr.eu-central-1.amazonaws.com/dev/infra/proxysql"
