@@ -24,12 +24,24 @@ proxysql:
       - username: stores
         password: storespass
     servers:
-      - host: 10.0.0.1
+      - hostname: "10.10.10.1"
+        port: 3306
+        weight: 1
+        comment: "Writer node"
         isWriter: true
-      - host: 10.0.0.2
+        status: "ONLINE"
+      - hostname: "10.10.1.2"
+        port: 3306
+        weight: 1
+        comment: "Reader 1"
         isWriter: false
-      - host: 10.0.0.3
+        status: "ONLINE"
+      - hostname: "10.10.10.3"
+        port: 3306
+        weight: 1
+        comment: "Reader 2"
         isWriter: false
+        status: "ONLINE"
 
 image:
   repository: "123456789012.dkr.ecr.eu-central-1.amazonaws.com/dev/infra/proxysql"
