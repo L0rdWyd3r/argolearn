@@ -1,0 +1,35 @@
+service:
+  type: ClusterIP
+  port: "3306"
+
+replicaCount: "1"
+
+cluster_username: admin
+cluster_password: strongpass123
+
+monitor_username: monitor
+monitor_password: monitorpass
+
+proxysql:
+  mysql:
+    users:
+      - username: iam
+        password: iampass
+      - username: flip
+        password: flippass
+      - username: manager
+        password: managerpass
+      - username: notifications
+        password: notifypass
+      - username: stores
+        password: storespass
+    servers:
+      - 10.0.0.1
+      - 10.0.0.2
+      - 10.0.0.3
+
+image:
+  repository: "123456789012.dkr.ecr.eu-central-1.amazonaws.com/dev/infra/proxysql"
+  tag: 2.7.3
+  pullPolicy: Always
+
