@@ -12,9 +12,13 @@ spec:
     repoURL: https://github.com/L0rdWyd3r/argolearn.git
     targetRevision: HEAD
     path: envs/staging/proxysql-shared
-    helm:
-      valueFiles:
-        - config.yaml
+		helm:
+		  values: |
+		    {{- with (lookup "v1" "Secret" "dev" "proxysql-values").data }}
+		    {{- range $k, $v := . }}
+		    {{ $k }}: {{ $v | b64dec }}
+		    {{- end }}
+		    {{- end }}
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
