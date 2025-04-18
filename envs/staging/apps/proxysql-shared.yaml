@@ -13,8 +13,7 @@ spec:
     targetRevision: HEAD
     path: envs/staging/proxysql-shared
     helm:
-      valueFiles:
-        - config.yaml
+      valueFilesFromSecret: proxysql-shared
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
