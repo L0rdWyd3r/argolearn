@@ -12,8 +12,8 @@ spec:
     targetRevision: HEAD
     path: envs/staging/proxysql-shared
     helm:
-      valueFiles:
-        - config.yaml
+      valueFiles: | 
+        {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.config\.yaml | b64dec }}
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
