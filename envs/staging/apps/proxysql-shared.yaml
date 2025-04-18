@@ -12,31 +12,8 @@ spec:
     targetRevision: HEAD
     path: envs/staging/proxysql-shared
     helm:
-      values: |
-        cluster_username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.cluster_username | b64dec }}
-        cluster_password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.cluster_password | b64dec }}
-        monitor_username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.monitor_username | b64dec }}
-        monitor_password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.monitor_password | b64dec }}
-
-        proxysql:
-          mysql:
-            users:
-              - username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.iam_username | b64dec }}
-                password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.iam_password | b64dec }}
-              - username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.flip_username | b64dec }}
-                password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.flip_password | b64dec }}
-              - username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.manager_username | b64dec }}
-                password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.manager_password | b64dec }}
-              - username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.notifications_username | b64dec }}
-                password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.notifications_password | b64dec }}
-              - username: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.stores_username | b64dec }}
-                password: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.stores_password | b64dec }}
-            servers: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.mysql_servers | b64dec }}
-
-        image:
-          repository: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.image_repository | b64dec }}
-          tag: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.image_tag | b64dec }}
-          pullPolicy: {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.image_pullPolicy | b64dec }}
+      valueFiles:
+        - config.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
@@ -49,3 +26,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
+
