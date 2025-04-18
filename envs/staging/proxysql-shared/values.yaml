@@ -1,27 +1,26 @@
-service:
-  type: "ClusterIP"
-service:
-  port: "3306"
-replicaCount: "1"
-cluster_username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_cluster_username }}"
-cluster_password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_cluster_password }}"
-monitor_username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_proxysql_username }}"
-monitor_password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_proxysql_password }}"
-proxysql:
-  mysql:
-    users:
-      - username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_iam_user }}"
-        password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_iam_password }}"
-      - username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_flip_user }}"
-        password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_flip_password }}"
-      - username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_manager_user }}"
-        password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_manager_password }}"
-      - username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_notifications_user }}"
-        password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_notifications_password }}"
-      - username: "{{ terraform_region.apps.tscloud.proxysql.xtradb_stores_user }}"
-        password: "{{ terraform_region.apps.tscloud.proxysql.xtradb_stores_password }}"
-    servers: {{ terraform_region.apps.tscloud.proxysql.mysql_servers }}
-image:
-  repository: "{{ terraform_region.main_config.env_variables.digit_account_id }}.dkr.ecr.{{ terraform_region.main_config.region_variables.aws_region }}.amazonaws.com/{{ terraform_region.main_config.env_variables.env }}/infra/proxysql"
-  tag: 2.7.3
-  pullPolicy: Always
+# Default values for proxysql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
