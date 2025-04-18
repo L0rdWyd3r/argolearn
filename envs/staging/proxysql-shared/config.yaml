@@ -24,9 +24,9 @@ proxysql:
       - username: stores
         password: storespass
     servers:
-      - 10.0.0.1
-      - 10.0.0.2
-      - 10.0.0.3
+      - host: 10.0.0.1
+      - host: 10.0.0.2
+      - host: 10.0.0.3
 
 image:
   repository: "123456789012.dkr.ecr.eu-central-1.amazonaws.com/dev/infra/proxysql"
