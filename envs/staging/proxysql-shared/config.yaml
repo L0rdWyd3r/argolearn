@@ -1,7 +1,5 @@
-# avp.kubernetes.io/secret: "true"
+# avp.enabled=true
 
-kind: Config
 helm:
   values: |
-    {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.config\.yaml | b64dec }}
-
+    {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.config | b64dec }}
