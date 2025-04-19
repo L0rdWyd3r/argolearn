@@ -11,9 +11,8 @@ spec:
     repoURL: https://github.com/L0rdWyd3r/argolearn.git
     targetRevision: HEAD
     path: envs/staging/proxysql-shared
-    helm:
-      valueFiles:
-        - config.yaml
+    plugin:
+      name: argocd-vault-plugin
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
