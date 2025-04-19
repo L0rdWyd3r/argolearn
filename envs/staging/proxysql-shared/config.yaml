@@ -1,30 +1,3 @@
-kind: Config
-data:
-  cluster_username: <path:secret/data/proxysql#cluster_username>
-  cluster_password: <path:secret/data/proxysql#cluster_password>
-  monitor_username: <path:secret/data/proxysql#monitor_username>
-  monitor_password: <path:secret/data/proxysql#monitor_password>
-
-  image:
-    repository: <path:secret/data/proxysql#image.repository>
-    tag: <path:secret/data/proxysql#image.tag>
-    pullPolicy: <path:secret/data/proxysql#image.pullPolicy>
-
-  proxysql:
-    mysql:
-      servers:
-        - hostname: <path:secret/data/proxysql#proxysql.mysql.servers[0]>
-        - hostname: <path:secret/data/proxysql#proxysql.mysql.servers[1]>
-        - hostname: <path:secret/data/proxysql#proxysql.mysql.servers[2]>
-      users:
-        - username: <path:secret/data/proxysql#proxysql.mysql.users[0].username>
-          password: <path:secret/data/proxysql#proxysql.mysql.users[0].password>
-        - username: <path:secret/data/proxysql#proxysql.mysql.users[1].username>
-          password: <path:secret/data/proxysql#proxysql.mysql.users[1].password>
-
-  replicaCount: <path:secret/data/proxysql#replicaCount>
-
-  service:
-    type: <path:secret/data/proxysql#service.type>
-    port: <path:secret/data/proxysql#service.port>
-
+helm:
+  values: |
+    {{ (lookup "v1" "Secret" "dev" "proxysql-values").data."config.yaml" | b64dec }}
