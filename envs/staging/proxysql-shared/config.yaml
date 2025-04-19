@@ -1,3 +1,6 @@
+# avp.enabled=true
+
 helm:
   values: |
     {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.config\.yaml | b64dec }}
+
