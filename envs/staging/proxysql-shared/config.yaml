@@ -1,40 +1,34 @@
-cluster_username: cluster
-cluster_password: ""
-monitor_username: proxysql
-monitor_password: ""
+cluster_username: <path:secret/data/proxysql#cluster_username>
+cluster_password: <path:secret/data/proxysql#cluster_password>
+monitor_username: <path:secret/data/proxysql#monitor_username>
+monitor_password: <path:secret/data/proxysql#monitor_password>
 
 image:
-  repository: 911111111111.dkr.ecr.eu-west-1.amazonaws.com/dev/infra/proxysql
-  tag: 2.7.3
-  pullPolicy: Always
+  repository: <path:secret/data/proxysql#image.repository>
+  tag: <path:secret/data/proxysql#image.tag>
+  pullPolicy: <path:secret/data/proxysql#image.pullPolicy>
 
 proxysql:
   mysql:
     servers:
-      - hostname: 10.101.0.189
-        isWriter: true
-        port: 3306
-      - hostname: 10.101.1.221
-        isWriter: false
-        port: 3306
-      - hostname: 10.101.2.56
-        isWriter: false
-        port: 3306
+      - hostname: <path:secret/data/proxysql#proxysql.mysql.servers[0].hostname>
+        isWriter: <path:secret/data/proxysql#proxysql.mysql.servers[0].isWriter>
+        port: <path:secret/data/proxysql#proxysql.mysql.servers[0].port>
+      - hostname: <path:secret/data/proxysql#proxysql.mysql.servers[1].hostname>
+        isWriter: <path:secret/data/proxysql#proxysql.mysql.servers[1].isWriter>
+        port: <path:secret/data/proxysql#proxysql.mysql.servers[1].port>
+      - hostname: <path:secret/data/proxysql#proxysql.mysql.servers[2].hostname>
+        isWriter: <path:secret/data/proxysql#proxysql.mysql.servers[2].isWriter>
+        port: <path:secret/data/proxysql#proxysql.mysql.servers[2].port>
     users:
-      - username: iam
-        password: MH2A
-      - username: flip
-        password: zRl5XcV
-      - username: manager
-        password: MHDVoAz
-      - username: notifications
-        password: a1EaE
-      - username: stores
-        password: JQvM66BD
+      - username: <path:secret/data/proxysql#proxysql.mysql.users[0].username>
+        password: <path:secret/data/proxysql#proxysql.mysql.users[0].password>
+      - username: <path:secret/data/proxysql#proxysql.mysql.users[1].username>
+        password: <path:secret/data/proxysql#proxysql.mysql.users[1].password>
 
-replicaCount: 1
+replicaCount: <path:secret/data/proxysql#replicaCount>
 
 service:
-  type: ClusterIP
-  port: 3306
+  type: <path:secret/data/proxysql#service.type>
+  port: <path:secret/data/proxysql#service.port>
 
