@@ -2,4 +2,4 @@
 
 helm:
   values: |
-    {{ (lookup "v1" "Secret" "dev" "proxysql-values").data.config | b64dec }}
+    {{ (lookup "v1" "Secret" "dev" "proxysql-values").data."config.yaml" | b64dec }}
