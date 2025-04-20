@@ -1,14 +1,23 @@
+{{/*
+  Helpery z domyślnymi wartościami.
+  Dzięki temu .Values.service może być pusty / nil.
+*/}}
+{{- $svc      := default (dict) .Values.service -}}
+{{- $type     := default "ClusterIP" $svc.type   -}}
+{{- $port     := default 3306        $svc.port   | int -}}
+{{- $replicas := default 1           .Values.replicaCount | int -}}
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "proxysql.fullname" $ }}
+  name: {{ include "proxysql.fullname" . }}
   labels:
 {{ include "proxysql.labels" . | indent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ $type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ $port }}
       targetPort: mysql
       protocol: TCP
       name: mysql
@@ -20,7 +29,8 @@ spec:
     app.kubernetes.io/name: {{ include "proxysql.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 
-{{ range $i, $e := until (int .Values.replicaCount) }}
+{{/*  drugi Service per‑pod */}}
+{{- range $i, $e := until $replicas }}
 ---
 apiVersion: v1
 kind: Service
@@ -29,9 +39,9 @@ metadata:
   labels:
 {{ include "proxysql.labels" $ | indent 4 }}
 spec:
-  type: {{ $.Values.service.type }}
+  type: {{ $type }}
   ports:
-    - port: {{ $.Values.service.port }}
+    - port: {{ $port }}
       targetPort: mysql
       protocol: TCP
       name: mysql
@@ -43,4 +53,5 @@ spec:
     app.kubernetes.io/name: {{ include "proxysql.name" $ }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
     statefulset.kubernetes.io/pod-name: {{ include "proxysql.fullname" $ }}-{{ $i }}
-{{ end }}
+{{- end }}
+

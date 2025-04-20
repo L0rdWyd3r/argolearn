@@ -1,3 +1,15 @@
+{{/*
+  Bezpieczne referencje do .Values
+*/}}
+{{- $vals        := .Values -}}
+{{- $image       := default (dict) $vals.image -}}
+{{- $pullSecret  := default "tf-secret-aws-ecr-token-cronjob" $vals.imagePullSecret -}}
+{{- $replicas    := default 1 $vals.replicaCount | int -}}
+{{- $repo        := default "busybox"  $image.repository -}}
+{{- $tag         := default "latest"   $image.tag -}}
+{{- $pullPolicy  := default "IfNotPresent" $image.pullPolicy -}}
+{{- $resources   := default (dict) $vals.resources -}}
+
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -6,7 +18,7 @@ metadata:
 {{ include "proxysql.labels" . | indent 4 }}
 spec:
   serviceName: {{ include "proxysql.fullname" . }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "proxysql.name" . }}
@@ -18,29 +30,29 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       imagePullSecrets:
-      - name: tf-secret-aws-ecr-token-cronjob
+      - name: {{ $pullSecret }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: mysql
-              containerPort: 3306
-              protocol: TCP
-            - name: proxysql-admin
-              containerPort: 6032
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          volumeMounts:
-            - name: proxysql
-              mountPath: "/mnt"
-              readOnly: true
-            - mountPath: "/datadir"
-              name: data
-      {{- with .Values.nodeSelector }}
+      - name: {{ .Chart.Name }}
+        image: "{{ $repo }}:{{ $tag }}"
+        imagePullPolicy: {{ $pullPolicy }}
+        ports:
+        - name: mysql
+          containerPort: 3306
+          protocol: TCP
+        - name: proxysql-admin
+          containerPort: 6032
+          protocol: TCP
+        resources:
+{{- toYaml $resources | nindent 10 }}
+        volumeMounts:
+        - name: proxysql
+          mountPath: "/mnt"
+          readOnly: true
+        - name: data
+          mountPath: "/datadir"
+      {{- with $vals.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+{{ toYaml . | nindent 8 }}
       {{- end }}
       affinity:
         podAntiAffinity:
@@ -58,22 +70,23 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: {{ include "proxysql.name" . }}
                   app.kubernetes.io/instance: {{ .Release.Name }}
-      {{- with .Values.tolerations }}
+      {{- with $vals.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
+{{ toYaml . | nindent 8 }}
       {{- end }}
       volumes:
       - name: proxysql
         secret:
           secretName: {{ include "proxysql.fullname" . }}
-
   volumeClaimTemplates:
   - metadata:
       name: data
     spec:
-      storageClassName: fast
-      accessModes:
-      - ReadWriteOnce
+      {{- if $vals.storageClassName }}
+      storageClassName: {{ $vals.storageClassName }}
+      {{- end }}
+      accessModes: ["ReadWriteOnce"]
       resources:
         requests:
-          storage: 1Gi
+          storage: {{ default "1Gi" $vals.storage | quote }}
+
