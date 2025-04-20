@@ -13,26 +13,26 @@ image:
 proxysql:
   mysql:
     servers:
-      - hostname: <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[0].hostname }>
-        isWriter: <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[0].isWriter }>
-        port:     <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[0].port }>
-      - hostname: <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[1].hostname }>
-        isWriter: <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[1].isWriter }>
-        port:     <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[1].port }>
-      - hostname: <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[2].hostname }>
-        isWriter: <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[2].isWriter }>
-        port:     <path:proxysql-shared#jsonPath { .proxysql.mysql.servers[2].port }>
+      - hostname: <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[0].hostname}>
+        isWriter: <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[0].isWriter}>
+        port:     <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[0].port}>
+      - hostname: <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[1].hostname}>
+        isWriter: <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[1].isWriter}>
+        port:     <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[1].port}>
+      - hostname: <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[2].hostname}>
+        isWriter: <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[2].isWriter}>
+        port:     <path:proxysql-shared#jsonPath{.proxysql.mysql.servers[2].port}>
     users:
-      - username: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[0].username }>
-        password: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[0].password }>
-      - username: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[1].username }>
-        password: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[1].password }>
-      - username: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[2].username }>
-        password: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[2].password }>
-      - username: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[3].username }>
-        password: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[3].password }>
-      - username: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[4].username }>
-        password: <path:proxysql-shared#jsonPath { .proxysql.mysql.users[4].password }>
+      - username: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[0].username}>
+        password: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[0].password}>
+      - username: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[1].username}>
+        password: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[1].password}>
+      - username: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[2].username}>
+        password: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[2].password}>
+      - username: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[3].username}>
+        password: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[3].password}>
+      - username: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[4].username}>
+        password: <path:proxysql-shared#jsonPath{.proxysql.mysql.users[4].password}>
 
 replicaCount: <path:proxysql-shared#replicaCount>
 
