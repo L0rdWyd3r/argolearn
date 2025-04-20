@@ -1,4 +1,4 @@
-# avp.kubernetes.io/ignore
+# avp.kubernetes.io/replace
 
 cluster_username: <path:secret/data/proxysql#cluster_username>
 cluster_password: <path:secret/data/proxysql#cluster_password>
