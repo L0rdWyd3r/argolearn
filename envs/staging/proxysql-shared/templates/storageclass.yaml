@@ -3,7 +3,7 @@ kind: StorageClass
 metadata:
   annotations:
     meta.helm.sh/release-name: fast
-    meta.helm.sh/release-namespace: {{ .Values.env }}
+    meta.helm.sh/release-namespace: "dev"
   labels:
     k8s-addon: storage-aws.addons.k8s.io
   name: fast
